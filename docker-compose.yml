@@ -5,11 +5,15 @@ services:
     build:
       context: .
       dockerfile: soccer-hadoop/Dockerfile
+      args:
+        - PARENT_FOLDER=soccer-hadoop
     container_name: soccer_hadoop_container
     restart: always
     ports:
       - "9870:9870"
       - "9000:9000"
+      - "8088:8088"
+      - "50070:50070"
     volumes:
       - soccer_hadoop_vol:/hadoop/data
     environment:

@@ -1,44 +1,53 @@
 FROM ubuntu:20.04
 
-RUN apt-get update && \
-		apt-get install -y --no-install-recommends \
-      openjdk-8-jdk \
-      net-tools \
-      curl \
-      netcat \
-      gnupg \
-      libsnappy-dev \
-			nano \
-    && rm -rf /var/lib/apt/lists/*
+WORKDIR /hadoop/data
 
-ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
+RUN apt-get update 
+RUN	apt-get install -y openjdk-8-jdk nano wget
 
-RUN curl -O https://dist.apache.org/repos/dist/release/hadoop/common/KEYS
-
-RUN gpg --import KEYS
-
+# install hadoop
 ENV HADOOP_VERSION 3.2.2
-ENV HADOOP_URL https://www.apache.org/dist/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz
+RUN wget https://www.apache.org/dist/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz 
+RUN tar -xzvf hadoop-$HADOOP_VERSION.tar.gz 
+RUN mv hadoop-$HADOOP_VERSION /usr/local/hadoop 
+RUN rm hadoop-$HADOOP_VERSION.tar.gz
 
-RUN set -x 
-RUN curl -fSL "$HADOOP_URL" -o /tmp/hadoop.tar.gz 
-RUN curl -fSL "$HADOOP_URL.asc" -o /tmp/hadoop.tar.gz.asc 
-RUN gpg --verify /tmp/hadoop.tar.gz.asc 
-RUN tar -xvf /tmp/hadoop.tar.gz -C /opt/ 
-RUN rm /tmp/hadoop.tar.gz*
+# set environment variable
+ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+ENV HADOOP_HOME=/usr/local/hadoop 
+ENV PATH=$PATH:/usr/local/hadoop/bin:/usr/local/hadoop/sbin 
 
-RUN ln -s /opt/hadoop-$HADOOP_VERSION/etc/hadoop /etc/hadoop
+# ssh without key
+RUN ssh-keygen -t rsa -f ~/.ssh/id_rsa -P '' && \
+		cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 
-RUN mkdir /opt/hadoop-$HADOOP_VERSION/logs
+# make necessary directories
+RUN mkdir -p ~/hdfs/namenode && \ 
+    mkdir -p ~/hdfs/datanode && \
+    mkdir $HADOOP_HOME/logs
 
-RUN mkdir /hadoop-data
+ARG PARENT_FOLDER
+# copy ssh config
+COPY $PARENT_FOLDER/config/ssh_config ~/.ssh/config 
 
-ENV HADOOP_HOME=/opt/hadoop-$HADOOP_VERSION
-ENV HADOOP_CONF_DIR=/etc/hadoop
-ENV MULTIHOMED_NETWORK=1
-ENV USER=root
-ENV PATH $HADOOP_HOME/bin/:$PATH
+# copy site config for hadoop
+COPY $PARENT_FOLDER/config/hdfs-site.xml $HADOOP_HOME/etc/hadoop/hdfs-site.xml
+COPY $PARENT_FOLDER/config/core-site.xml $HADOOP_HOME/etc/hadoop/core-site.xml 
+COPY $PARENT_FOLDER/config/yarn-site.xml $HADOOP_HOME/etc/hadoop/yarn-site.xml 
+COPY $PARENT_FOLDER/config/mapred-site.xml $HADOOP_HOME/etc/hadoop/mapred-site.xml 
 
-# WORKDIR /football
+#COPY config/slaves $HADOOP_HOME/etc/hadoop/slaves 
+#COPY config/hadoop-env.sh /usr/local/hadoop/etc/hadoop/hadoop-env.sh 
+#COPY config/start-hadoop.sh ~/start-hadoop.sh
+#COPY config/run-wordcount.sh ~/run-wordcoun.sh
 
-CMD [ "echo", "SUCCESS" ]
+# RUN chmod +x ~/start-hadoop.sh && \
+#     chmod +x ~/run-wordcount.sh && \
+#     chmod +x $HADOOP_HOME/sbin/start-dfs.sh && \
+#     chmod +x $HADOOP_HOME/sbin/start-yarn.sh 
+
+# format namenode
+RUN /usr/local/hadoop/bin/hdfs namenode -format
+
+CMD [ "sh", "-c", "service ssh start; bash"]
+
