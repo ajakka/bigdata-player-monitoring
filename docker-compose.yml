@@ -2,7 +2,9 @@ version: "3"
 
 services:
   soccer-hadoop:
-    image: ubuntu:20.04
+    build:
+      context: .
+      dockerfile: soccer-hadoop/Dockerfile
     container_name: soccer_hadoop_container
     restart: always
     ports:
@@ -14,7 +16,9 @@ services:
       - CLUSTER_NAME=soccerball_hadoop
 
   soccer-kafka:
-    image: bitnami/kafka:3.1.0
+    build:
+      context: .
+      dockerfile: soccer-kafka/Dockerfile
     container_name: soccer_kafka_container
     ports:
       - "9092:9092"
@@ -37,7 +41,9 @@ services:
       - ALLOW_ANONYMOUS_LOGIN=yes
 
   soccer-spark:
-    image: bitnami/spark:3.2.0
+    build:
+      context: .
+      dockerfile: soccer-spark/Dockerfile
     container_name: soccer_spark_container
     environment:
       - SPARK_MODE=master
