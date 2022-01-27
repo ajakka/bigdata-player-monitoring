@@ -38,3 +38,7 @@ ENV HADOOP_CONF_DIR=/etc/hadoop
 ENV MULTIHOMED_NETWORK=1
 ENV USER=root
 ENV PATH $HADOOP_HOME/bin/:$PATH
+
+# WORKDIR /football
+
+# CMD [ "echo", "SUCCESS" ]
