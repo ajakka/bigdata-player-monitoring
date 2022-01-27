@@ -1,1 +1,1 @@
-FROM ubuntu:20.04
+FROM bitnami/kafka:3.1.0

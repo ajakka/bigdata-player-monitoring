@@ -1,1 +1,1 @@
-FROM ubuntu:20.04
+FROM bitnami/spark:3.2.0
