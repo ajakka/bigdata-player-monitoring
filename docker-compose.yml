@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  ftphadoop:
+    image: ubuntu:20.04
+    container_name: ftphadoop
+    restart: always
+    ports:
+      - 9870:9870
+      - 9000:9000
+    volumes:
+      - ftp_hadoop_vol:/hadoop/dfs/name
+    environment:
+      - CLUSTER_NAME=football_hadoop
+
+  ftpkafka:
+    image: ubuntu:20.04
+    container_name: ftpkafka
+    restart: always
+    volumes:
+      - ftp_kafka_vol:/kafka/dfs/name
+    environment:
+      - CLUSTER_NAME=football_kafka
+
+volumes:
+  ftp_hadoop_vol:
+  ftp_kafka_vol:
