@@ -1,44 +1,44 @@
 version: "3"
 
 services:
-  foot-hadoop:
+  soccer-hadoop:
     image: ubuntu:20.04
-    container_name: foot_hadoop_container
+    container_name: soccer_hadoop_container
     restart: always
     ports:
-      - 9870:9870
-      - 9000:9000
+      - "9870:9870"
+      - "9000:9000"
     volumes:
-      - foot_hadoop_vol:/hadoop/data
+      - soccer_hadoop_vol:/hadoop/data
     environment:
-      - CLUSTER_NAME=football_hadoop
+      - CLUSTER_NAME=soccerball_hadoop
 
-  foot-kafka:
+  soccer-kafka:
     image: bitnami/kafka:3.1.0
-    container_name: foot_kafka_container
+    container_name: soccer_kafka_container
     ports:
       - "9092:9092"
     volumes:
-      - foot_kafka_vol:/kafka_data
+      - soccer_kafka_vol:/kafka_data
     environment:
       - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
       - ALLOW_PLAINTEXT_LISTENER=yes
     depends_on:
-      - foot-zookeeper
+      - soccer-zookeeper
 
-  foot-zookeeper:
+  soccer-zookeeper:
     image: bitnami/zookeeper:3.7
-    container_name: foot_zookeeper_container
+    container_name: soccer_zookeeper_container
     ports:
       - "2181:2181"
     volumes:
-      - foot_zookeeper_vol:/kafka_data
+      - soccer_zookeeper_vol:/kafka_data
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
 
-  foot-spark:
+  soccer-spark:
     image: bitnami/spark:3.2.0
-    container_name: foot_spark_container
+    container_name: soccer_spark_container
     environment:
       - SPARK_MODE=master
       - SPARK_RPC_AUTHENTICATION_ENABLED=no
@@ -46,16 +46,16 @@ services:
       - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
       - SPARK_SSL_ENABLED=no
     volumes:
-      - foot_spark_vol:/spark/data
+      - soccer_spark_vol:/spark/data
     ports:
       - "8080:8080"
 
-  foot-spark-worker:
+  soccer-spark-worker:
     image: bitnami/spark:3.2.0
-    container_name: foot_spark_worker_container
+    container_name: soccer_spark_worker_container
     environment:
       - SPARK_MODE=worker
-      - SPARK_MASTER_URL=spark://foot-spark:7077
+      - SPARK_MASTER_URL=spark://soccer-spark:7077
       - SPARK_WORKER_MEMORY=1G
       - SPARK_WORKER_CORES=1
       - SPARK_RPC_AUTHENTICATION_ENABLED=no
@@ -63,12 +63,12 @@ services:
       - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
       - SPARK_SSL_ENABLED=no
     volumes:
-      - foot_spark_vol:/spark/data
+      - soccer_spark_vol:/spark/data
 
 volumes:
-  foot_hadoop_vol:
-  foot_spark_vol:
-  foot_zookeeper_vol:
+  soccer_hadoop_vol:
+  soccer_spark_vol:
+  soccer_zookeeper_vol:
     driver: local
-  foot_kafka_vol:
+  soccer_kafka_vol:
     driver: local
