@@ -1,35 +1,76 @@
 version: "3"
 
 services:
-  ftphadoop:
+  ftp-hadoop:
     image: ubuntu:20.04
-    container_name: ftphadoop
+    container_name: ftp_hadoop_container
     restart: always
     ports:
       - 9870:9870
       - 9000:9000
     volumes:
-      - ftp_hadoop_vol:/hadoop/dfs/name
+      - ftp_hadoop_vol:/hadoop/data
     environment:
       - CLUSTER_NAME=football_hadoop
 
-  ftpkafka:
+  ftp-kafka:
     image: bitnami/kafka:3.1.0
-    container_name: ftpkafka
-    restart: always
+    container_name: ftp_kafka_container
+    ports:
+      - "9092:9092"
     volumes:
-      - ftp_kafka_vol:/kafka/dfs/name
+      - ftp_kafka_vol:/kafka_data
     environment:
-      - CLUSTER_NAME=football_kafka
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+    depends_on:
+      - ftp-zookeeper
 
-  ftpspark:
-    image: bitnami/spark:3.2.0
-    container_name: ftpspark
-    restart: always
+  ftp-zookeeper:
+    image: bitnami/zookeeper:3.7
+    container_name: ftp_zookeeper_container
+    ports:
+      - "2181:2181"
     volumes:
-      - ftp_spark_vol:/spark/dfs/name
+      - ftp_zookeeper_vol:/kafka_data
     environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+
+  ftp-spark:
+    image: bitnami/spark:3.2.0
+    container_name: ftp_spark_container
+    environment:
+      - SPARK_MODE=master
+      - SPARK_RPC_AUTHENTICATION_ENABLED=no
+      - SPARK_RPC_ENCRYPTION_ENABLED=no
+      - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
+      - SPARK_SSL_ENABLED=no
       - CLUSTER_NAME=football_spark
+    volumes:
+      - ftp_spark_vol:/spark/data
+    ports:
+      - "8080:8080"
+
+  ftp-spark-worker:
+    image: bitnami/spark:3.2.0
+    container_name: ftp_spark_worker_container
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER_URL=spark://spark:7077
+      - SPARK_WORKER_MEMORY=1G
+      - SPARK_WORKER_CORES=1
+      - SPARK_RPC_AUTHENTICATION_ENABLED=no
+      - SPARK_RPC_ENCRYPTION_ENABLED=no
+      - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
+      - SPARK_SSL_ENABLED=no
+      - CLUSTER_NAME=football_spark
+    volumes:
+      - ftp_spark_vol:/spark/data
+
 volumes:
   ftp_hadoop_vol:
+  ftp_spark_vol:
+  ftp_zookeeper_vol:
+    driver: local
   ftp_kafka_vol:
+    driver: local
