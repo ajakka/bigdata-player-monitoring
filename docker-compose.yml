@@ -14,7 +14,7 @@ services:
       - CLUSTER_NAME=football_hadoop
 
   ftpkafka:
-    image: ubuntu:20.04
+    image: bitnami/kafka:3.1.0
     container_name: ftpkafka
     restart: always
     volumes:
@@ -22,6 +22,14 @@ services:
     environment:
       - CLUSTER_NAME=football_kafka
 
+  ftpspark:
+    image: bitnami/spark:3.2.0
+    container_name: ftpspark
+    restart: always
+    volumes:
+      - ftp_spark_vol:/spark/dfs/name
+    environment:
+      - CLUSTER_NAME=football_spark
 volumes:
   ftp_hadoop_vol:
   ftp_kafka_vol:
