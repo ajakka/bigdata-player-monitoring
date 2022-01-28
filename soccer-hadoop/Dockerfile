@@ -3,7 +3,7 @@ FROM ubuntu:20.04
 WORKDIR /hadoop/data
 
 RUN apt-get update 
-RUN	apt-get install -y openjdk-8-jdk nano wget
+RUN	apt-get install -y openssh-server openjdk-8-jdk nano wget
 
 # install hadoop
 ENV HADOOP_VERSION 3.2.2
@@ -37,14 +37,14 @@ COPY $PARENT_FOLDER/config/yarn-site.xml $HADOOP_HOME/etc/hadoop/yarn-site.xml
 COPY $PARENT_FOLDER/config/mapred-site.xml $HADOOP_HOME/etc/hadoop/mapred-site.xml 
 
 #COPY config/slaves $HADOOP_HOME/etc/hadoop/slaves 
-#COPY config/hadoop-env.sh /usr/local/hadoop/etc/hadoop/hadoop-env.sh 
-#COPY config/start-hadoop.sh ~/start-hadoop.sh
+COPY config/hadoop-env.sh /usr/local/hadoop/etc/hadoop/hadoop-env.sh 
+COPY config/start-hadoop.sh ~/start-hadoop.sh
 #COPY config/run-wordcount.sh ~/run-wordcoun.sh
 
-# RUN chmod +x ~/start-hadoop.sh && \
+ RUN chmod +x ~/start-hadoop.sh && \
 #     chmod +x ~/run-wordcount.sh && \
-#     chmod +x $HADOOP_HOME/sbin/start-dfs.sh && \
-#     chmod +x $HADOOP_HOME/sbin/start-yarn.sh 
+     chmod +x $HADOOP_HOME/sbin/start-dfs.sh && \
+     chmod +x $HADOOP_HOME/sbin/start-yarn.sh 
 
 # format namenode
 RUN /usr/local/hadoop/bin/hdfs namenode -format
