@@ -3,22 +3,6 @@ networks:
   bigdata-player-monitoring_default:
     driver: bridge
 services:
-  soccer-hadoop:
-    build:
-      context: .
-      dockerfile: soccer-hadoop/Dockerfile
-    container_name: soccer_hadoop_container
-    restart: always
-    ports:
-      - "9870:9870"
-      - "9000:9000"
-      - "8088:8088"
-    volumes:
-      - soccer_hadoop_vol:/hadoop/data
-    environment:
-      - CLUSTER_NAME=soccerball_hadoop
-    networks:
-      - bigdata-player-monitoring_default
   soccer-kafka:
     build:
       context: .
@@ -26,11 +10,18 @@ services:
     container_name: soccer_kafka_container
     ports:
       - "9092:9092"
+      - "9093:9093"
     volumes:
       - soccer_kafka_vol:/kafka_data
     environment:
       - KAFKA_CFG_ZOOKEEPER_CONNECT=soccer-zookeeper:2181
       - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT
+      - KAFKA_CFG_LISTENERS=CLIENT://:9092,EXTERNAL://:9093
+      - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://soccer-kafka:9092,EXTERNAL://localhost:9093
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=CLIENT
     depends_on:
       - soccer-zookeeper
     networks:
