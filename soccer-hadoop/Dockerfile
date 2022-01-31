@@ -40,9 +40,9 @@ RUN mv /tmp/hadoop-env.sh /usr/local/hadoop/etc/hadoop/hadoop-env.sh && \
     mv /tmp/slaves $HADOOP_HOME/etc/hadoop/slaves && \
     mv /tmp/start-hadoop.sh ~/start-hadoop.sh
 
- RUN chmod +x ~/start-hadoop.sh && \
-     chmod +x $HADOOP_HOME/sbin/start-dfs.sh && \
-     chmod +x $HADOOP_HOME/sbin/start-yarn.sh 
+RUN chmod +x ~/start-hadoop.sh && \
+    chmod +x $HADOOP_HOME/sbin/start-dfs.sh && \
+    chmod +x $HADOOP_HOME/sbin/start-yarn.sh 
 
 # format namenode
 RUN /usr/local/hadoop/bin/hdfs namenode -format
