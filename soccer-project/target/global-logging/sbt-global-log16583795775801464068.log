@@ -1,0 +1,84 @@
+[debug] > Exec(early(addDefaultCommands), None, None)
+[debug] > Exec(addDefaultCommands, None, None)
+[debug] > Exec(early(initialize), None, None)
+[debug] > Exec(initialize, None, None)
+[debug] > Exec(boot, None, None)
+[debug] > Exec(writeSbtVersion, None, None)
+[debug] > Exec(reload, None, None)
+[debug] > Exec(sbtStashOnFailure, None, None)
+[debug] > Exec(onFailure loadFailed, None, None)
+[debug] > Exec(loadp, None, None)
+[info] welcome to sbt 1.6.2 (Ubuntu Java 11.0.13)
+[debug]       Load.loadUnit: plugins took 115.693367ms
+[debug]       Load.loadUnit: defsScala took 0.57294ms
+[debug] [Loading] Scanning directory /home/mustapha/.sbt/1.0/plugins
+[debug] [Loading] Found non-root projects 
+[debug] [Loading] Done in /home/mustapha/.sbt/1.0/plugins, returning: ()
+[debug] deducing auto plugins based on known facts Set(Atom(sbt.plugins.CorePlugin)) and clauses Clauses(Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.IvyPlugin)))
+[debug] Clause(Atom(sbt.ScriptedPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.SbtPlugin),Set(Atom(sbt.ScriptedPlugin)))
+[debug] Clause(Atom(sbt.plugins.SemanticdbPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.JUnitXmlReportPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.MiniDependencyTreePlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.CorePlugin),Set(Atom(sbt.plugins.IvyPlugin)))
+[debug] Clause(Atom(sbt.plugins.IvyPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.SemanticdbPlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.JUnitXmlReportPlugin)))
+[debug] Clause(Atom(sbt.plugins.CorePlugin),Set(Atom(sbt.plugins.Giter8TemplatePlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.MiniDependencyTreePlugin))))
+[debug]   :: deduced result: Matched(sbt.plugins.CorePlugin,sbt.plugins.Giter8TemplatePlugin,sbt.plugins.IvyPlugin,sbt.plugins.JvmPlugin,sbt.plugins.MiniDependencyTreePlugin,sbt.plugins.JUnitXmlReportPlugin,sbt.plugins.SemanticdbPlugin)
+[debug] Plugins.deducer#function took 32.91448 ms
+[debug]           Load.resolveProject(global-plugins) took 63.759742ms
+[debug]         Load.loadTransitive: finalizeProject(Project(id global-plugins, base: /home/mustapha/.sbt/1.0/plugins, plugins: List(<none>))) took 131.089989ms
+[debug] [Loading] Done in /home/mustapha/.sbt/1.0/plugins, returning: (global-plugins)
+[debug]       Load.loadUnit: loadedProjectsRaw took 161.28694ms
+[debug]       Load.loadUnit: cleanEvalClasses took 0.446894ms
+[debug]     Load.loadUnit(file:/home/mustapha/.sbt/1.0/plugins/, ...) took 291.95398ms
+[debug]   Load.apply: load took 581.253839ms
+[debug]   Load.apply: resolveProjects took 10.031194ms
+[debug]   Load.apply: finalTransforms took 85.81064ms
+[debug]   Load.apply: config.delegates took 11.726946ms
+[debug]   Load.apply: Def.make(settings)... took 588.118508ms
+[debug]   Load.apply: structureIndex took 126.830813ms
+[debug]   Load.apply: mkStreams took 4.944766ms
+[info] loading global plugins from /home/mustapha/.sbt/1.0/plugins
+[debug] Running task... Cancel: Signal, check cycles: false, forcegc: true
+[debug] Load.defaultLoad until apply took 4962.332345ms
+[debug]           Load.loadUnit: plugins took 1613.764476ms
+[debug]           Load.loadUnit: defsScala took 0.014072ms
+[debug] [Loading] Scanning directory /home/mustapha/bigdata-player-monitoring/soccer-project/project
+[debug] [Loading] Found non-root projects 
+[debug] [Loading] Done in /home/mustapha/bigdata-player-monitoring/soccer-project/project, returning: ()
+[debug] deducing auto plugins based on known facts Set(Atom(sbt.plugins.CorePlugin)) and clauses Clauses(Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.IvyPlugin)))
+[debug] Clause(Atom(sbt.ScriptedPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.SbtPlugin),Set(Atom(sbt.ScriptedPlugin)))
+[debug] Clause(Atom(sbt.plugins.SemanticdbPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.JUnitXmlReportPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.MiniDependencyTreePlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.CorePlugin),Set(Atom(sbt.plugins.IvyPlugin)))
+[debug] Clause(Atom(sbt.plugins.IvyPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.SemanticdbPlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.JUnitXmlReportPlugin)))
+[debug] Clause(Atom(sbt.plugins.CorePlugin),Set(Atom(sbt.plugins.Giter8TemplatePlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.MiniDependencyTreePlugin))))
+[debug]   :: deduced result: Matched(sbt.plugins.CorePlugin,sbt.plugins.Giter8TemplatePlugin,sbt.plugins.IvyPlugin,sbt.plugins.JvmPlugin,sbt.plugins.MiniDependencyTreePlugin,sbt.plugins.JUnitXmlReportPlugin,sbt.plugins.SemanticdbPlugin)
+[debug] Plugins.deducer#function took 6.421677 ms
+[debug]               Load.resolveProject(soccer-project-build) took 15.870321ms
+[debug]             Load.loadTransitive: finalizeProject(Project(id soccer-project-build, base: /home/mustapha/bigdata-player-monitoring/soccer-project/project, plugins: List(<none>))) took 33.369783ms
+[debug] [Loading] Done in /home/mustapha/bigdata-player-monitoring/soccer-project/project, returning: (soccer-project-build)
+[debug]           Load.loadUnit: loadedProjectsRaw took 194.855262ms
+[debug]           Load.loadUnit: cleanEvalClasses took 0.04316ms
+[debug]         Load.loadUnit(file:/home/mustapha/bigdata-player-monitoring/soccer-project/project/, ...) took 1834.875569ms
+[debug]       Load.apply: load took 1848.264773ms
+[debug]       Load.apply: resolveProjects took 0.151044ms
+[debug]       Load.apply: finalTransforms took 18.900684ms
+[debug]       Load.apply: config.delegates took 0.659402ms
+[debug]       Load.apply: Def.make(settings)... took 424.661376ms
+[debug]       Load.apply: structureIndex took 65.06908ms
+[debug]       Load.apply: mkStreams took 0.003108ms
+[info] loading project definition from /home/mustapha/bigdata-player-monitoring/soccer-project/project
+[debug] Running task... Cancel: Signal, check cycles: false, forcegc: true
+[debug]     Load.loadUnit: plugins took 74768.968213ms
+[debug]     Load.loadUnit: defsScala took 0.016001ms
+[debug] [Loading] Scanning directory /home/mustapha/bigdata-player-monitoring/soccer-project
+[debug]       Load.loadUnit: mkEval took 16368.175178ms
