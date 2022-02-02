@@ -28,6 +28,7 @@ RUN mkdir -p ~/hdfs/namenode && \
 
 #copy files temporary
 COPY config/* /tmp/
+COPY dataset/players-madrid.csv /root
 # copy ssh config
 RUN mv /tmp/ssh_config ~/.ssh/config
 
@@ -38,11 +39,13 @@ RUN mv /tmp/hadoop-env.sh /usr/local/hadoop/etc/hadoop/hadoop-env.sh && \
     mv /tmp/mapred-site.xml $HADOOP_HOME/etc/hadoop/mapred-site.xml && \
     mv /tmp/yarn-site.xml $HADOOP_HOME/etc/hadoop/yarn-site.xml && \
     mv /tmp/slaves $HADOOP_HOME/etc/hadoop/slaves && \
-    mv /tmp/start-hadoop.sh ~/start-hadoop.sh
+    mv /tmp/start-hadoop.sh ~/start-hadoop.sh && \
+    mv /tmp/copyToHDFS.sh ~/copyToHDFS.sh
 
 RUN chmod +x ~/start-hadoop.sh && \
     chmod +x $HADOOP_HOME/sbin/start-dfs.sh && \
-    chmod +x $HADOOP_HOME/sbin/start-yarn.sh 
+    chmod +x $HADOOP_HOME/sbin/start-yarn.sh && \
+    chmod +x ~/copyToHDFS.sh
 
 # format namenode
 RUN /usr/local/hadoop/bin/hdfs namenode -format

@@ -16,4 +16,4 @@ if __name__ == "__main__":
         print(registered_user)
         producer.send("CLIENT", registered_user)
         producer.flush() 
-        sleep(4)
+        sleep(6)
