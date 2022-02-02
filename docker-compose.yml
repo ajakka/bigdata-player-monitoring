@@ -51,7 +51,7 @@ services:
     image: bde2020/spark-worker:3.2.0-hadoop3.2
     container_name: spark-worker-1
     depends_on:
-      - spark-master
+      - soccer-spark-master
     ports:
       - "8081:8081"
     environment:
