@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Main-Class: mapreduce.SoccerDriver
+Created-By: 1.8.0_312 (Homebrew)
+

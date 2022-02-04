@@ -1,7 +1,7 @@
 from pyspark import SparkContext, SparkConf, SparkFiles
 from pyspark.sql import SparkSession
 
-sc = SparkContext.getOrCreate(SparkConf().setMaster('spark://localhost:7077'))
+sc = SparkContext.getOrCreate(SparkConf().setMaster('spark://soccer-spark:7077'))
 # sc.setLogLevel("FATAL")
 
 spark = SparkSession \
@@ -9,18 +9,13 @@ spark = SparkSession \
     .appName("Football players spark instance") \
     .getOrCreate()
 
-spark.sparkContext.addFile('https://raw.githubusercontent.com/ajakka/bigdata-player-monitoring/main/dataset/players_fifa21_realmadrid.csv')
-
 # Load csv data
-spk_df = spark.read \
-		.csv(f"file://{SparkFiles.get('players_fifa21_realmadrid.csv')}", header=True, inferSchema= True)
+spk_df = spark.read.csv("/opt/bitnami/spark/players-madrid.csv",header=True, inferSchema= True)
 
 # count players by club name
-club_name_count = spk_df.groupBy("club_name").count()
+club_name_count = spk_df.groupBy("nationality").count()
 club_name_count.show()
 
 # print(df.head())
-
-
 
 sc.stop()

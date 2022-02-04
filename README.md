@@ -50,3 +50,29 @@ $ docker image rm 55b41198c55e
 Untagged: bitnami/spark:3
 Untagged: bitnami/spark@sha256:c6591ea33ab634d72fdeb56d8adc61483bb3d509efda5ea0fd4fbc4458fbc9e1
 ```
+
+### Compiling java code with hadoop jar
+
+"-d out" to specify where to put the .class files
+
+```
+javac -cp hadoop-client-api-3.3.1.jar \
+			-d . \
+			SoccerDriver.java SoccerMapper.java SoccerReducer.java
+
+jar cfm soccer.jar Manifest.txt ./mapreduce/*.class
+```
+
+### HDFS Commands
+
+```
+./start-hadoop.sh
+
+hdfs dfs -mkdir -p /root/data
+
+hdfs dfs -put players-madrid.csv /root/data
+
+hadoop jar soccer_map_reduce.jar /root/data /root/result
+
+hdfs dfs -cat /root/result/part-00000
+```

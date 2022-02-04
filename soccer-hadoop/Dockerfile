@@ -31,7 +31,7 @@ COPY config/* /tmp/
 
 # copy project files
 COPY dataset/players-madrid.csv /root
-COPY mapreduce/soccer.jar /root
+COPY mapreduce/soccer_map_reduce.jar /root
 
 # copy ssh config
 RUN mv /tmp/ssh_config ~/.ssh/config
