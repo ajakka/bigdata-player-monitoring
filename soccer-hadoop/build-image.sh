@@ -1,8 +1,4 @@
 #!/bin/bash
 
-echo ""
-
-echo -e "\nbuild docker hadoop image\n"
-sudo docker build -t soccer/hadoop .
-
-echo ""
+echo -e "building soccer hadoop image"
+docker build -t soccer/hadoop .

@@ -28,7 +28,11 @@ RUN mkdir -p ~/hdfs/namenode && \
 
 #copy files temporary
 COPY config/* /tmp/
+
+# copy project files
 COPY dataset/players-madrid.csv /root
+COPY mapreduce/soccer.jar /root
+
 # copy ssh config
 RUN mv /tmp/ssh_config ~/.ssh/config
 
