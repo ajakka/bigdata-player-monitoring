@@ -10,8 +10,8 @@ services:
     ports:
       - "9092:9092"
       - "9093:9093"
-    volumes:
-      - soccer_kafka_vol:/kafka_data
+    # volumes:
+    #   - soccer_kafka_vol:/kafka_data
     environment:
       - KAFKA_CFG_ZOOKEEPER_CONNECT=soccer-zookeeper:2181
       - ALLOW_PLAINTEXT_LISTENER=yes
@@ -31,8 +31,8 @@ services:
     container_name: soccer_zookeeper_container
     ports:
       - "2181:2181"
-    volumes:
-      - soccer_zookeeper_vol:/kafka_data
+    # volumes:
+    #   - soccer_zookeeper_vol:/kafka_data
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
     networks:
@@ -45,6 +45,7 @@ volumes:
   soccer_kafka_vol:
     driver: local
 
+<<<<<<< HEAD
 # soccer-spark:
   #   image: bitnami/spark:3.2.0
   #   container_name: soccer_spark_container
@@ -64,6 +65,46 @@ volumes:
   #     - "4040:4040"
   #   networks:
   #     - bigdata-player-monitoring_default
+=======
+  soccer-spark:
+    build:
+      context: .
+      dockerfile: soccer-spark/Dockerfile
+    container_name: soccer_spark_container
+    environment:
+      - SPARK_MODE=master
+      - SPARK_RPC_AUTHENTICATION_ENABLED=no
+      - SPARK_RPC_ENCRYPTION_ENABLED=no
+      - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
+      - SPARK_SSL_ENABLED=no
+      - SPARK_DAEMON_USER=root
+      - SPARK_DAEMON_GROUP=root
+    # volumes:
+    #   - soccer_spark_vol:/opt/bitnami/spark
+    ports:
+      - "8080:8080"
+      - "7077:7077"
+      - "4040:4040"
+    networks:
+      - bigdata-player-monitoring_default
+
+  soccer-spark-worker:
+    build:
+      context: .
+      dockerfile: soccer-spark/Dockerfile
+    container_name: soccer_spark_worker_container
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER_URL=spark://soccer-spark:7077
+      - SPARK_RPC_AUTHENTICATION_ENABLED=no
+      - SPARK_RPC_ENCRYPTION_ENABLED=no
+      - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
+      - SPARK_SSL_ENABLED=no
+    # volumes:
+    #   - soccer_spark_vol:/opt/bitnami/spark
+    networks:
+      - bigdata-player-monitoring_default
+>>>>>>> 83524775ce217122c23bc915d9fd881a69ba90b1
 
   # soccer-spark-worker:
   #   image: bitnami/spark:3.2.0
@@ -98,3 +139,13 @@ volumes:
   #     - soccer_hadoop_vol:/hadoop/data
   #   environment:
   #     - CLUSTER_NAME=soccerball_hadoop
+<<<<<<< HEAD
+=======
+# volumes:
+#   soccer_hadoop_vol:
+#   soccer_spark_vol:
+#   soccer_zookeeper_vol:
+#     driver: local
+#   soccer_kafka_vol:
+#     driver: local
+>>>>>>> 83524775ce217122c23bc915d9fd881a69ba90b1

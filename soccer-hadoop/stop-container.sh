@@ -4,7 +4,6 @@
 echo "stop hadoop-master container..."
 docker rm -f hadoop-master 
 
-
 # stop hadoop slave container
 i=1
 N=${1:-3}
@@ -15,3 +14,6 @@ do
 	i=$(( $i + 1 ))
 done 
 
+# remove network
+echo "remove network bigdata-player-monitoring_default..."
+docker network rm bigdata-player-monitoring_default
