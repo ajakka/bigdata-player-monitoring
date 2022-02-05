@@ -4,6 +4,7 @@ import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringSerializer;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -22,7 +23,7 @@ public class CsvKafkaProducer {
     private Producer<String, String> ProducerProperties(){
         Properties properties = new Properties();
         properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, KafkaBrokerEndpoint);
-        properties.put(ProducerConfig.CLIENT_ID_CONFIG, "KafkaCsvProducer");
+        properties.put(ProducerConfig.CLIENT_ID_CONFIG, "CLIENT");
         properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
 
@@ -43,15 +44,13 @@ public class CsvKafkaProducer {
         final Producer<String, String> csvProducer = ProducerProperties();
 
         try{
-            URI uri = getClass().getClassLoader().getResource(CsvFile).toURI();
+            URI uri = new File("/home/mustapha/bigdata-player-monitoring/soccer-java/players-madrid.csv").toURI();
             Stream<String> FileStream = Files.lines(Paths.get(uri));
 
             FileStream.forEach(line -> {
-                System.out.println(line);
-
+                //System.out.println(line);
                 final ProducerRecord<String, String> csvRecord = new ProducerRecord<String, String>(
                         KafkaTopic, UUID.randomUUID().toString(), line);
-
                 csvProducer.send(csvRecord, (metadata, exception) -> {
                     if(metadata != null){
                         System.out.println("CsvData: -> "+ csvRecord.key()+" | "+ csvRecord.value());
