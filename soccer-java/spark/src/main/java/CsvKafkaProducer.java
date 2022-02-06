@@ -10,14 +10,15 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Properties;
 import java.util.UUID;
 import java.util.stream.Stream;
 
 public class CsvKafkaProducer {
     private static String KafkaBrokerEndpoint = "localhost:9093";
-    private static String KafkaTopic = "demo";
-    private static String CsvFile = "players-madrid.csv";
+    private static String KafkaTopic = "sensors";
 
 
     private Producer<String, String> ProducerProperties(){
@@ -34,35 +35,30 @@ public class CsvKafkaProducer {
 
         CsvKafkaProducer kafkaProducer = new CsvKafkaProducer();
         kafkaProducer.PublishMessages();
-        System.out.println("Producing job completed");
     }
 
 
 
     private void PublishMessages() throws URISyntaxException{
-
-        final Producer<String, String> csvProducer = ProducerProperties();
-
-        try{
-            URI uri = new File("/home/mustapha/bigdata-player-monitoring/soccer-java/players-madrid.csv").toURI();
-            Stream<String> FileStream = Files.lines(Paths.get(uri));
-
-            FileStream.forEach(line -> {
-                //System.out.println(line);
-                final ProducerRecord<String, String> csvRecord = new ProducerRecord<String, String>(
-                        KafkaTopic, UUID.randomUUID().toString(), line);
-                csvProducer.send(csvRecord, (metadata, exception) -> {
+        final Producer<String, String> playerProducer = ProducerProperties();
+        loadData ld=new loadData();
+        ArrayList<Player> players=ld.getPlayers();
+        while (true){
+            Iterator it=players.iterator();
+            while (it.hasNext()){
+                Player p=(Player) it.next();
+                String data="id:"+p.getId()+",hb:"+((int) ((Math.random() * (180 - 150)) + 150));
+                final ProducerRecord<String, String> playerRecord = new ProducerRecord<String, String>(
+                        KafkaTopic, UUID.randomUUID().toString(), data);
+                playerProducer.send(playerRecord, (metadata, exception) -> {
                     if(metadata != null){
-                        System.out.println("CsvData: -> "+ csvRecord.key()+" | "+ csvRecord.value());
+                        System.out.println("CsvData: -> "+ playerRecord.key()+" | "+ playerRecord.value());
                     }
                     else{
-                        System.out.println("Error Sending Csv Record -> "+ csvRecord.value());
+                        System.out.println("Error Sending Csv Record -> "+ playerRecord.value());
                     }
                 });
-            });
-
-        } catch (IOException e) {
-            e.printStackTrace();
+            }
         }
     }
 }
