@@ -13,7 +13,6 @@ producer = KafkaProducer(
 if __name__ == "__main__":
     while 1 == 1:
         registered_user = get_data()
-        print(registered_user)
-        producer.send("CLIENT", registered_user)
+        producer.send("test", {"hi":123})
         producer.flush() 
         sleep(6)

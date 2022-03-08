@@ -21,24 +21,17 @@ import java.util.concurrent.TimeoutException;
 public class kafkaReader {
 
     public static <MyLog> void main(String[] args) throws InterruptedException, StreamingQueryException, TimeoutException {
-        SparkConf conf=new SparkConf().setMaster("spark://127.0.1.1:7077").setAppName("kafkaReader");
+        SparkConf conf=new SparkConf().setMaster("local").setAppName("kafkaReader");
         JavaSparkContext jsc=new JavaSparkContext(conf);
         JavaStreamingContext jstream = new JavaStreamingContext(jsc, new Duration(20000));
-        /*Map<String, Object> kafkaParams = new HashMap<>();
-        kafkaParams.put("bootstrap.servers", "127.0.0.1:9093");
-        kafkaParams.put("key.deserializer", StringDeserializer.class);
-        kafkaParams.put("value.deserializer", StringDeserializer.class);
-        kafkaParams.put("group.id", "consumer");
-        kafkaParams.put("auto.offset.reset", "earliest");
-        kafkaParams.put("enable.auto.commit", false);*/
+
         Map<String,Object> kafkaParams=new HashMap<>();
-        kafkaParams.put("bootstrap.servers","127.0.0.1:9093");
+        kafkaParams.put("bootstrap.servers","localhost:9093");
         kafkaParams.put("key.deserializer", StringDeserializer.class);
         kafkaParams.put("value.deserializer", StringDeserializer.class);
         kafkaParams.put("group.id", "consumer");
         kafkaParams.put("auto.offset.reset", "earliest");
         kafkaParams.put("enable.auto.commit", false);
-        //Collection<String> topics = Arrays.asList("demo");
         Collection<String> topics = Collections.singleton("sensors");
         JavaInputDStream<ConsumerRecord<String, String>> directKafkaStream = KafkaUtils.<String,String>createDirectStream(jstream,
                 LocationStrategies.PreferConsistent(), ConsumerStrategies.<String,String>Subscribe(topics,kafkaParams));

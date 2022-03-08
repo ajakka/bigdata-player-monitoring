@@ -20,7 +20,7 @@ public class loadData {
 
     }
     public SparkSession getSession(){
-        SparkSession spark = SparkSession.builder().appName("kafkaStream").master("spark://SVE1511Z1EB:7077")
+        SparkSession spark = SparkSession.builder().appName("loadData").master("spark://SVE1511Z1EB:7077")
                 .getOrCreate();
         return spark;
     }
@@ -36,7 +36,7 @@ public class loadData {
                 .add("nationality","String")
                 .add("value_eur","String");
         Dataset<Row> players=getSession().read().option("header",false).schema(schema)
-                .csv("hdfs://172.22.0.2:9000/user/root/data/players-madrid.csv");
+                .csv("hdfs://172.25.0.2:9000/user/root/data/players-madrid.csv");
         return players;
     }
 
