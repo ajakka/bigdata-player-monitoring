@@ -12,10 +12,7 @@ class Producer:
     def json_serializer(data):
         return dumps(data).encode("utf-8")
 
-    def send(self,topic="sensors",data)
-if __name__ == "__main__":
-    while 1 == 1:
-        registered_user = get_data()
-        producer.send("test", {"hi":123})
-        producer.flush()
-        sleep(6)
+    def send(self,topic,data):
+        self.producer.send(topic,data)
+        self.producer.flush()
+        sleep(2)

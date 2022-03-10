@@ -16,4 +16,3 @@ class SparkReader:
         idsRdd=dataRdd.map(lambda x:x.split(',')[0])
         return idsRdd.collect()[1:]
 
-print(SparkReader.getIds())
