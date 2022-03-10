@@ -14,5 +14,5 @@ if __name__ == "__main__":
     while 1 == 1:
         registered_user = get_data()
         producer.send("test", {"hi":123})
-        producer.flush() 
+        producer.flush()
         sleep(6)
