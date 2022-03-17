@@ -29,10 +29,6 @@ RUN mkdir -p ~/hdfs/namenode && \
 #copy files temporary
 COPY config/* /tmp/
 
-# copy project files
-COPY dataset/players-madrid.csv /root
-COPY mapreduce/soccer_map_reduce.jar /root
-
 # copy ssh config
 RUN mv /tmp/ssh_config ~/.ssh/config
 
@@ -44,12 +40,18 @@ RUN mv /tmp/hadoop-env.sh /usr/local/hadoop/etc/hadoop/hadoop-env.sh && \
     mv /tmp/yarn-site.xml $HADOOP_HOME/etc/hadoop/yarn-site.xml && \
     mv /tmp/slaves $HADOOP_HOME/etc/hadoop/slaves && \
     mv /tmp/start-hadoop.sh ~/start-hadoop.sh && \
-    mv /tmp/copyToHDFS.sh ~/copyToHDFS.sh
+    mv /tmp/copy-to-hdfs.sh ~/copy-to-hdfs.sh && \
+    mv /tmp/run.sh ~/run.sh
 
 RUN chmod +x ~/start-hadoop.sh && \
     chmod +x $HADOOP_HOME/sbin/start-dfs.sh && \
     chmod +x $HADOOP_HOME/sbin/start-yarn.sh && \
-    chmod +x ~/copyToHDFS.sh
+    chmod +x ~/copy-to-hdfs.sh && \
+    chmod +x ~/run.sh
+
+# copy project files
+COPY dataset/players-madrid.csv /root
+COPY mapreduce/soccer_map_reduce.jar /root
 
 # format namenode
 RUN /usr/local/hadoop/bin/hdfs namenode -format
