@@ -12,7 +12,7 @@ class Producer:
 
     def send(self,topic="sensors"):
         for id in SparkReader.SparkReader().getIds():
-            self.producer.send(topic,value={id:randrange(150, 180)})
+            self.producer.send(topic,value={int(id):randrange(150, 180)})
             self.producer.flush()
             #sleep(2)
 
