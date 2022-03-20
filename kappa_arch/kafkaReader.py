@@ -26,7 +26,6 @@ class KafkaReader:
             heartBeats.append([list(row.keys())[0],list(row.values())[0]])
         df=pd.DataFrame(heartBeats,columns=['id','hb'])
         df=df.groupby('id').agg([pd.np.mean])
-
         df.to_csv(path_or_buf=f"{folderPath}/{datetime.today().strftime('%Y-%m-%d')}.csv", sep=',')
     
 kr=KafkaReader()

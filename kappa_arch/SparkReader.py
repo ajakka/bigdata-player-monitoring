@@ -23,7 +23,7 @@ class SparkReader:
     
     @staticmethod
     def exampleQuestion2():
-        sc=Spark().getContext(master="spark://SVE1511Z1EB:7077")
+        sc=Spark().getContext()
         data=SparkReader().getPlayersDF()
         nat_count = data.groupBy("nationality").count()
         nat_count.show()
