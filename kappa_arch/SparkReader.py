@@ -15,6 +15,7 @@ class SparkReader:
         return Spark()\
             .getSession("readData")\
             .read.csv("hdfs://172.22.0.2:9000/user/root/data/players-madrid.csv",header=True, inferSchema= True)
+    
     @staticmethod
     def getIds():
         dataRdd=SparkReader.getPlayers()

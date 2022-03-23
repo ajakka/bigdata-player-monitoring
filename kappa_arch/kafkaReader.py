@@ -17,8 +17,10 @@ class KafkaReader:
     def getData(self,folderPath):
         heartBeats=[]
         df=KafkaReader().readFromKafka()
-        df=df.withColumn('key_str', df['key'].cast('string').alias('key_str')).drop(
-        'key').withColumn('value_str', df['value'].cast('string').alias('value_str')).drop('value')
+        df=df.withColumn('key_str', df['key'].cast('string').alias('key_str')) \
+            .drop('key') \
+            .withColumn('value_str', df['value'].cast('string').alias('value_str')) \
+            .drop('value')
         df=df.toPandas()
         df=df['value_str']
         for record in df:
@@ -27,6 +29,6 @@ class KafkaReader:
         df=pd.DataFrame(heartBeats,columns=['id','hb'])
         df=df.groupby('id').agg([pd.np.mean])
         df.to_csv(path_or_buf=f"{folderPath}/{datetime.today().strftime('%Y-%m-%d')}.csv", sep=',')
-    
+        
 kr=KafkaReader()
 kr.getData("/home/mustapha/bigdata-player-monitoring/kappa_arch/data")
