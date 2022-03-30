@@ -11,6 +11,10 @@
         <description>DataNode directory</description>
     </property>
     <property>
+        <name>dfs.permissions</name>
+        <value>false</value>
+    </property>
+    <property>
         <name>dfs.replication</name>
         <value>2</value>
     </property>
