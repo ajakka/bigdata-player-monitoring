@@ -20,8 +20,10 @@ class KafkaReader:
         session=spark.getSession("saveToHDFS")
         session.conf.set("spark.sql.execution.arrow.enabled","true")
         df=KafkaReader().readFromKafka()
-        df=df.withColumn('key_str', df['key'].cast('string').alias('key_str')).drop(
-        'key').withColumn('value_str', df['value'].cast('string').alias('value_str')).drop('value')
+        df=df.withColumn('key_str', df['key'].cast('string').alias('key_str')) \
+            .drop('key') \
+            .withColumn('value_str', df['value'].cast('string').alias('value_str')) \
+            .drop('value')
         df=df.toPandas()
         df=df['value_str']
         for record in df:
